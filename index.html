@@ -19,7 +19,7 @@
         player = new YT.Player('player', {
           height: '390',
           width: '640',
-          videoId: 'M7lc1UVf-VE',
+          videoId: 'uH1MrhJZ2NA',
           events: {
             'onReady': onPlayerReady,
             'onStateChange': onPlayerStateChange
@@ -38,13 +38,42 @@
       var done = false;
       function onPlayerStateChange(event) {
         if (event.data == YT.PlayerState.PLAYING && !done) {
-          setTimeout(stopVideo, 6000);
-          done = true;
+          //Here we run the main function
+          console.log("STATE PLAYING");
         }
       }
+
       function stopVideo() {
         player.stopVideo();
       }
+
+      function pauseVideo() {
+        player.pauseVideo();
+      }
+    
+      //In seconds
+      var LOOP_ID = -1;
+      function loopFrom(start, end) {
+        //Some tests
+        //Start must be smaller then end!
+        clearTimeout(LOOP_ID);
+        player.seekTo(start);
+        player.playVideo();
+        LOOP_ID = setTimeout(function() {
+          loopFrom(start,end);
+        }, (end-start)*1000);
+      }
+
+      setInterval(function(){
+        //EveryTick:
+          console.log("Video Time: "+ player.getCurrentTime());
+        }, 1);
+
+      $(document).on("keypress", function (e) {
+    // use e.which
+
+      });
+
     </script>
   </body>
 </html>
